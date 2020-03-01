@@ -1,0 +1,99 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+</head>
+<h1>Data trend</h1>
+<script type="text/javascript" src="js/stock.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3.chart/0.3.0/d3.chart.min.js"></script>
+
+<h2>Coronavirus trend in 7 days</h2>
+<script type="text/javascript" src="https://ssl.gstatic.com/trends_nrtr/2051_RC11/embed_loader.js"></script> <script type="text/javascript"> trends.embed.renderExploreWidget("TIMESERIES", {"comparisonItem":[{"keyword":"/m/01cpyy","geo":"","time":"now 7-d"}],"category":0,"property":""}, {"exploreQuery":"date=now%207-d&q=%2Fm%2F01cpyy","guestPath":"https://trends.google.com:443/trends/embed/"}); </script>
+
+
+<h2>VIX in 60 minute</h2>
+<table id="stock" class="display" width="100%">
+    <thead>
+    <tr>
+        <th>Open</th>
+        <th>High</th>
+        <th>Low</th>
+        <th>Close</th>
+        <th>Volume</th>
+        <th>Date</th>
+    </tr>
+    </thead>
+</table>
+
+<script>
+    $(document ).ready(function() {
+        console.log( "ready!" );
+
+         var stocks = new Stocks('SYTCQBUIU44BX2G4'); // Replace with your own
+
+        // Let's get the stock data of Tesla Inc for the last 10 minutes
+        async function request () {
+          var dataSet = await stocks.timeSeries({
+            symbol: 'VIX',
+            interval: '60min',
+            amount: 10
+           });
+
+
+            console.log(dataSet);
+
+            // [{"open":665.63,"high":667.85,"low":664.43,"close":667.46,"volume":138031,"date":"2020-02-28T20:00:00.000Z"},
+
+            $('#stock').DataTable( {
+                 data: dataSet,
+
+                columns: [
+                    { data: 'open' },
+                    { data: 'high' },
+                    { data: 'low' },
+                    { data: 'close' },
+                    { data: 'volume' },
+                    { data: 'date' }
+                ]
+            });
+        }
+
+        request();
+    });
+
+</script>
+
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container">
+    <div id="tradingview_11989"></div>
+    <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/NASDAQ-AAPL/" rel="noopener" target="_blank"><span class="blue-text">AAPL Chart</span></a> by TradingView</div>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script type="text/javascript">
+  new TradingView.widget(
+  {
+  "autosize": true,
+  "symbol": "NASDAQ:AAPL",
+  "interval": "D",
+  "timezone": "Etc/UTC",
+  "theme": "Dark",
+  "style": "1",
+  "locale": "en",
+  "toolbar_bg": "#f1f3f6",
+  "enable_publishing": false,
+  "allow_symbol_change": true,
+  "news": [
+    "headlines"
+  ],
+  "studies": [
+    "MACD@tv-basicstudies"
+  ],
+  "container_id": "tradingview_11989"
+}
+  );
+  </script>
+</div>
+<!-- TradingView Widget END -->
+
+
+</html>
