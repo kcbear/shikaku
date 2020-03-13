@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta charset="utf-8">
-<html >
+<html>
 <head>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
     <style>
@@ -13,7 +13,7 @@
         html,body {
             margin:0;
             padding:0;
-            min-height:3000px; /* needed for container min-height */
+            min-height:200px; /* needed for container min-height */
 
             font-family:arial,sans-serif;
             font-size:small;
@@ -62,7 +62,7 @@
                     var chart = new CanvasJS.Chart("chartContainer", {
                         animationEnabled: true,
                         title: {
-                            text: "VIX in 30 days"
+                            text: "VIX"
                         },
                         axisX: {
                             minimum: new Date(dataPoints[dataPoints.length-1].x),
@@ -105,6 +105,7 @@
       "width": "95%",
       "height": "700px",
       "symbol": "NASDAQ:AAPL",
+      "interval": "D",
       "timezone": "Etc/UTC",
       "theme": "Dark",
       "style": "3",
