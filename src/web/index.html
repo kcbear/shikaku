@@ -36,6 +36,13 @@
     <div id="chartContainer" style="height: 300px; width: 100%;"></div>
 </div>
 
+
+<div class="section">
+    <div id="lastPrice2"></div>
+    <div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+</div>
+
+
 <script>
     $(document ).ready(function() {
         console.log( "ready!" );
@@ -93,6 +100,64 @@
 
 </script>
 
+
+<script>
+    $(document ).ready(function() {
+        console.log( "ready!" );
+        async function request () {
+
+            var dataPoints = []
+            var symbol = 'GDM'
+            $.getJSON("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol="+ symbol +"&outputsize=compact&apikey=SYTCQBUIU44BX2G4",
+                function(result) {
+
+                    var timeSeries=Object.values(result)[1];
+                    var keys=Object.keys(timeSeries);
+
+                    for (var i = 0; i < keys.length; i++) {
+
+
+                        dataPoints.push({
+                            x: new Date(keys[i]),
+                            y: Number(timeSeries[keys[i]]["4. close"])
+                        });
+                    }
+
+
+                    var chart = new CanvasJS.Chart("chartContainer2", {
+                        animationEnabled: true,
+                        title: {
+                            text: "NYSE Arca Gold Miners Index (GDM)"
+                        },
+                        axisX: {
+                            minimum: new Date(dataPoints[dataPoints.length-1].x),
+                            maximum: new Date(dataPoints[0].x),
+                            valueFormatString: "DD MMM YY"
+                        },
+                        axisY: {
+                            title: "index",
+                            titleFontColor: "#4F81BC"
+                        },
+                        data: [{
+                            indexLabelFontColor: "darkSlateGray",
+                            name: "views",
+                            type: "area",
+		                    yValueFormatString: "##",
+                            dataPoints: dataPoints
+                        }]
+                    });
+                    chart.render();
+                    $("#lastPrice2").html("Last price: " + dataPoints[0].y);
+
+
+
+                });
+        }
+        request();
+    });
+
+</script>
+
 <div class="section">
     <!-- TradingView Widget BEGIN -->
     <div class="tradingview-widget-container">
@@ -105,14 +170,14 @@
       "width": "95%",
       "height": "700px",
       "symbol": "NASDAQ:AAPL",
-      "interval": "D",
       "timezone": "Etc/UTC",
       "theme": "Dark",
       "style": "3",
+      "interval": "D",
+      "range": "6m",
       "locale": "en",
       "toolbar_bg": "#f1f3f6",
       "enable_publishing": false,
-      "range": "5d",
       "allow_symbol_change": true,
       "save_image": false,
       "details": true,
