@@ -32,8 +32,8 @@
 </div>
 
 <div class="section">
-    <div id="lastPrice"></div>
-    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    <div id="lastPrice1"></div>
+    <div id="chartContainer1" style="height: 300px; width: 100%;"></div>
 </div>
 
 
@@ -42,120 +42,78 @@
     <div id="chartContainer2" style="height: 300px; width: 100%;"></div>
 </div>
 
+<div class="section">
+    <div id="lastPrice3"></div>
+    <div id="chartContainer3" style="height: 300px; width: 100%;"></div>
+</div>
+
+<div class="section">
+    <div id="lastPrice4"></div>
+    <div id="chartContainer4" style="height: 300px; width: 100%;"></div>
+</div>
+
+<div class="section">
+    <div id="lastPrice5"></div>
+    <div id="chartContainer5" style="height: 300px; width: 100%;"></div>
+</div>
+
 
 <script>
-    $(document ).ready(function() {
-        console.log( "ready!" );
-        async function request () {
 
+    function createChart(symbol, index, chartName) {
+
+        var query='https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol='+ symbol +'&outputsize=compact&apikey=SYTCQBUIU44BX2G4'
+        $.getJSON(query, function(result){
             var dataPoints = []
+            var timeSeries=Object.values(result)[1];
+            var keys=Object.keys(timeSeries);
 
-            $.getJSON("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=VIX&outputsize=compact&apikey=SYTCQBUIU44BX2G4",
-                function(result) {
-
-                    var timeSeries=Object.values(result)[1];
-                    var keys=Object.keys(timeSeries);
-
-                    for (var i = 0; i < keys.length; i++) {
-
-
-                        dataPoints.push({
-                            x: new Date(keys[i]),
-                            y: Number(timeSeries[keys[i]]["4. close"])
-                        });
-                    }
-
-
-                    var chart = new CanvasJS.Chart("chartContainer", {
-                        animationEnabled: true,
-                        title: {
-                            text: "VIX"
-                        },
-                        axisX: {
-                            minimum: new Date(dataPoints[dataPoints.length-1].x),
-                            maximum: new Date(dataPoints[0].x),
-                            valueFormatString: "DD MMM YY"
-                        },
-                        axisY: {
-                            title: "index",
-                            titleFontColor: "#4F81BC"
-                        },
-                        data: [{
-                            indexLabelFontColor: "darkSlateGray",
-                            name: "views",
-                            type: "area",
-		                    yValueFormatString: "##",
-                            dataPoints: dataPoints
-                        }]
-                    });
-                    chart.render();
-                    $("#lastPrice").html("Last price: " + dataPoints[0].y);
-
-
-
+            for (var i = 0; i < keys.length; i++) {
+                dataPoints.push({
+                    x: new Date(keys[i]),
+                    y: Number(timeSeries[keys[i]]["4. close"])
                 });
-        }
-        request();
-    });
+            }
+
+            var chart = new CanvasJS.Chart("chartContainer" + index, {
+                animationEnabled: true,
+                title: {
+                    text: chartName
+                },
+                axisX: {
+                    minimum: new Date(dataPoints[dataPoints.length-1].x),
+                    maximum: new Date(dataPoints[0].x),
+                    valueFormatString: "DD MMM YY"
+                },
+                axisY: {
+                    title: "index",
+                    titleFontColor: "#4F81BC"
+                },
+                data: [{
+                    indexLabelFontColor: "darkSlateGray",
+                    name: "views",
+                    type: "area",
+                    yValueFormatString: "##",
+                    dataPoints: dataPoints
+                }]
+            });
+            chart.render();
+            $("#lastPrice" + index).html("Last price: " + dataPoints[0].y);
+        });
+    };
+
 
 </script>
 
-
 <script>
     $(document ).ready(function() {
         console.log( "ready!" );
-        async function request () {
-
-            var dataPoints = []
-            var symbol = 'GDM'
-            $.getJSON("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol="+ symbol +"&outputsize=compact&apikey=SYTCQBUIU44BX2G4",
-                function(result) {
-
-                    var timeSeries=Object.values(result)[1];
-                    var keys=Object.keys(timeSeries);
-
-                    for (var i = 0; i < keys.length; i++) {
-
-
-                        dataPoints.push({
-                            x: new Date(keys[i]),
-                            y: Number(timeSeries[keys[i]]["4. close"])
-                        });
-                    }
-
-
-                    var chart = new CanvasJS.Chart("chartContainer2", {
-                        animationEnabled: true,
-                        title: {
-                            text: "NYSE Arca Gold Miners Index (GDM)"
-                        },
-                        axisX: {
-                            minimum: new Date(dataPoints[dataPoints.length-1].x),
-                            maximum: new Date(dataPoints[0].x),
-                            valueFormatString: "DD MMM YY"
-                        },
-                        axisY: {
-                            title: "index",
-                            titleFontColor: "#4F81BC"
-                        },
-                        data: [{
-                            indexLabelFontColor: "darkSlateGray",
-                            name: "views",
-                            type: "area",
-		                    yValueFormatString: "##",
-                            dataPoints: dataPoints
-                        }]
-                    });
-                    chart.render();
-                    $("#lastPrice2").html("Last price: " + dataPoints[0].y);
-
-
-
-                });
-        }
-        request();
+        createChart("VIX", 1, "VIX");
+        createChart("HYXE", 2, "iShares iBoxx $ High Yield ex Oil & Gas Corporate Bond ETF");
+        createChart("ANGL", 3, "VanEck Vectors Fallen Angel High Yield Bond ETF");
+        createChart("ICLN", 4, "iShares S&P Global Clean Energy Index Fund");
+        createChart("XOP", 5, "SPDR S&P Oil & Gas Exploration & Production ETF");
     });
-
 </script>
 
 <div class="section">
