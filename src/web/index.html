@@ -8,6 +8,23 @@
         div.section {
             padding: 15px;
             min-height: 300px;
+            min-width: 95%;
+        }
+
+        div.col_2 {
+            padding: 15px;
+            min-width: 40%;
+            max-width: 40%;
+            min-height: 300px;
+            display:inline-block
+        }
+
+        div.col_3 {
+            padding: 15px;
+            min-width: 35%;
+            max-width: 30%;
+            min-height: 300px;
+            display:inline-block
         }
 
         html,body {
@@ -32,48 +49,38 @@
 </div>
 
 <div class="section">
-    <div id="lastPrice1"></div>
-    <div id="chartContainer1" style="height: 300px; width: 100%;"></div>
-</div>
-
-
-<div class="section">
-    <div id="lastPrice2"></div>
-    <div id="chartContainer2" style="height: 300px; width: 100%;"></div>
-</div>
-
-<div class="section">
-    <div id="lastPrice3"></div>
-    <div id="chartContainer3" style="height: 300px; width: 100%;"></div>
+    <div class="col_2">
+        <div id="lastPrice1"></div>
+        <div id="chartContainer1" style="height: 300px; width: 100%;"></div>
+    </div>
+    <div class="col_2">
+        <div id="lastPrice2"></div>
+        <div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+    </div>
 </div>
 
 <div class="section">
-    <div id="lastPrice4"></div>
-    <div id="chartContainer4" style="height: 300px; width: 100%;"></div>
+    <div class="col_2">
+        <div id="lastPrice3"></div>
+        <div id="chartContainer3" style="height: 300px; width: 100%;"></div>
+    </div>
+    <div class="col_2">
+        <div id="lastPrice4"></div>
+        <div id="chartContainer4" style="height: 300px; width: 100%;"></div>
+    </div>
 </div>
 
 <div class="section">
-    <div id="lastPrice5"></div>
-    <div id="chartContainer5" style="height: 300px; width: 100%;"></div>
+    <div class="col_3">
+        <div id="lastPrice5"></div>
+        <div id="chartContainer5" style="height: 300px; width: 100%;"></div>
+    </div>
 </div>
-
-
-<div class="section">
-    <div id="lastPrice6"></div>
-    <div id="chartContainer6" style="height: 300px; width: 100%;"></div>
-</div>
-
-
-<div class="section">
-    <div id="lastPrice7"></div>
-    <div id="chartContainer7" style="height: 300px; width: 100%;"></div>
-</div>
-
 <script>
 
     function createChart(symbol, index, chartName) {
-
-        var query='https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol='+ symbol +'&outputsize=compact&apikey=SYTCQBUIU44BX2G4'
+        var key = "SYTCQBUIU44BX2G4";
+        var query='https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol='+ symbol +'&outputsize=compact&apikey=' + key;
         $.getJSON(query, function(result){
             var dataPoints = []
             var timeSeries=Object.values(result)[1];
@@ -120,13 +127,16 @@
     $(document ).ready(function() {
         console.log( "ready!" );
         var i=1;
+        <!--risk-->
         createChart("VIX", i++, "VIX");
+        createChart("ANGL", i++, "VanEck Vectors Fallen Angel High Yield Bond ETF");
+        <!--real estate-->
         createChart("VNQ", i++, "Vanguard Real Estate ETF");
         createChart("VMBS", i++, "Vanguard Mortgage-Backed Securities ETF");
+        <!--energy-->
         createChart("HYXE", i++, "iShares iBoxx $ High Yield ex Oil & Gas Corporate Bond ETF");
-        createChart("XOP", i++, "SPDR S&P Oil & Gas Exploration & Production ETF");
-        createChart("ANGL", i++, "VanEck Vectors Fallen Angel High Yield Bond ETF");
-        createChart("ICLN", i++, "iShares S&P Global Clean Energy Index Fund");
+        <!--createChart("XOP", i++, "SPDR S&P Oil & Gas Exploration & Production ETF");-->
+        <!--createChart("ICLN", i++, "iShares S&P Global Clean Energy Index Fund");-->
     });
 </script>
 
