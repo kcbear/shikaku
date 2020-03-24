@@ -58,6 +58,17 @@
 </div>
 
 
+<div class="section">
+    <div id="lastPrice6"></div>
+    <div id="chartContainer6" style="height: 300px; width: 100%;"></div>
+</div>
+
+
+<div class="section">
+    <div id="lastPrice7"></div>
+    <div id="chartContainer7" style="height: 300px; width: 100%;"></div>
+</div>
+
 <script>
 
     function createChart(symbol, index, chartName) {
@@ -108,12 +119,14 @@
 <script>
     $(document ).ready(function() {
         console.log( "ready!" );
-        createChart("VIX", 1, "VIX");
-        createChart("VNQ", 2, "Vanguard Real Estate ETF");
-        createChart("HYXE", 3, "iShares iBoxx $ High Yield ex Oil & Gas Corporate Bond ETF");
-        createChart("XOP", 4, "SPDR S&P Oil & Gas Exploration & Production ETF");
-        createChart("ANGL", 5, "VanEck Vectors Fallen Angel High Yield Bond ETF");
-        createChart("ICLN", 6, "iShares S&P Global Clean Energy Index Fund");
+        var i=0;
+        createChart("VIX", i++, "VIX");
+        createChart("VNQ", i++, "Vanguard Real Estate ETF");
+        createChart("VMBS", i++, "Vanguard Mortgage-Backed Securities ETF");
+        createChart("HYXE", i++, "iShares iBoxx $ High Yield ex Oil & Gas Corporate Bond ETF");
+        createChart("XOP", i++, "SPDR S&P Oil & Gas Exploration & Production ETF");
+        createChart("ANGL", i++, "VanEck Vectors Fallen Angel High Yield Bond ETF");
+        createChart("ICLN", i++, "iShares S&P Global Clean Energy Index Fund");
     });
 </script>
 
